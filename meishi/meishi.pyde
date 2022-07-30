@@ -7,7 +7,8 @@ class Meishi:
         self.font = None
     
     # 変体仮名フォントで名前を描画する
-    def draw(self, g):
+    def draw(self):
+        g = self.g
         g.pushStyle()
         if self.font:
             g.textFont(self.font)
@@ -24,7 +25,8 @@ class Meishi:
         self.name2 = kana2hentaigana(self.name)
 
     # ロゴを表示する
-    def drawLogo(self, g):
+    def drawLogo(self):
+        g = self.g
         g.pushStyle()
         g.textSize(24)
         g.textAlign(RIGHT, BOTTOM)
@@ -33,6 +35,11 @@ class Meishi:
         g.text('Doshisha University Girls Summer Camp 2022', width - 15, height - 15)
         g.popStyle()
 
+    # 保存する
+    def save(self):
+        g = self.g
+        g.save(FILENAME)
+
 # 一般的な名刺のサイズは 91mm×55mm = 3.583 inch × 2.165 inch
 DPI = 350
 WIDTH = int(91 / 25.4 * DPI)
@@ -40,6 +47,13 @@ HEIGHT = int(55 / 25.4 * DPI)
 
 # 名前を設定する（ひらがな）
 NAME = u'にいじま やゑ'
+
+# 出力先ファイル名
+FILENAME = 'output.png'
+
+# 描画バッファを利用するかどうか
+# （透過PNGを作成する場合は必須）
+IMAGE_BUFFER = False
 
 # 名刺オブジェクト
 meishi = Meishi()
@@ -60,27 +74,43 @@ def setup():
 
 # 描画する内容を定義する
 def draw():
-    # 背景をリセット
-    background(255, 255, 240)
+    # PGraphics オブジェクトを取得 or 生成する
+    if IMAGE_BUFFER:
+        pg = createGraphics(WIDTH, HEIGHT)
+        pg.beginDraw()
+        pg.colorMode(RGB, 255)
+        pg.background(0, 0, 0, 0)
+    else:
+        pg = g
+        colorMode(RGB, 255)
+        background(255, 255, 240)
+    meishi.g = pg
 
     # 背景を描画する
-    pushStyle()
-    colorMode(HSB, 100)
-    noFill()
+    pg.pushStyle()
+    pg.colorMode(HSB, 100)
+    pg.noFill()
     for _ in range(200):
         x = random(width)
         y = random(height)
         r = random(30, 100)
         c = random(100)
-        stroke(c, 30, 100)
-        ellipse(x, y, r, r)
-    popStyle()
+        pg.stroke(c, 30, 100)
+        pg.ellipse(x, y, r, r)
+    pg.popStyle()
     
+    print(2222)
     # 右下にロゴ（？）を描画する
-    meishi.drawLogo(g)
+    meishi.drawLogo()
 
+    print(2222)
     # 変体仮名フォントで名前を描画する
-    meishi.draw(g)
+    meishi.draw()
+    
+    if pg != g:
+        pg.endDraw()
+        background(255, 255, 240)
+        image(pg, 0, 0)
 
 # マウスをクリックしたときに実行される関数を定義する
 def mouseClicked():
@@ -93,4 +123,4 @@ def mouseClicked():
 # キーボードのキーを押したときに実行される関数を定義する
 def keyPressed():
     # キャンバスの内容をファイルに保存する
-    save('output.png')
+    meishi.save()
