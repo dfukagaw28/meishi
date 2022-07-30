@@ -70,7 +70,7 @@ def draw():
     pg.textAlign(RIGHT, BOTTOM)
     pg.colorMode(RGB, 255)
     pg.fill(200)
-    pg.text('Doshisha University Girls Science Camp 2022', width - 15, height - 15)
+    pg.text('Doshisha University Girls Summer Camp 2022', width - 15, height - 15)
 
     # 変体仮名フォントで名前を描画する
     pg.textFont(font2)
