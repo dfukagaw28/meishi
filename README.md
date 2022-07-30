@@ -5,5 +5,5 @@
 ## 動作環境（例）
 
 - OS: Windows 11
-- Processing: 3.5.4 (REV 0270)
-- Python Mode for Processing 3: 3063
+- Processing: 4.0 beta 8 (REV 1283)
+- Python Mode for Processing 4: 4001

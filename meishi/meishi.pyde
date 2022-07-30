@@ -30,8 +30,8 @@ def setup():
     pg = createGraphics(WIDTH, HEIGHT)
     
     # フォントオブジェクトを生成する
-    font1 = loadFont("Candara-Italic-24.vlw")    
-    font2 = createFont("UniHentaiKana-Regular.otf", 64)    
+    font1 = loadFont("Candara-Italic-24.vlw")
+    font2 = createFont("UniHentaiKana-Regular.otf", 128)
 
     # 名前を変体仮名に変換する
     name2 = kana2hentaigana(name)
@@ -74,7 +74,7 @@ def draw():
 
     # 変体仮名フォントで名前を描画する
     pg.textFont(font2)
-    pg.textAlign(CENTER, TOP)
+    pg.textAlign(CENTER, CENTER)
     pg.colorMode(RGB, 255)
     pg.fill(0)
     pg.text(name2, width/2, height/2)
